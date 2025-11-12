@@ -1,4 +1,4 @@
-public interface I_Management <T>{
+public interface I_Management<T> {
     void add(T item);
     void remove(String id);
     T search(String id);

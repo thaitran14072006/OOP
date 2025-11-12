@@ -1,0 +1,20 @@
+B001|To Kill a Mockingbird|1960
+CATEGORIES:Fiction,Classic
+AUTHORS:A001
+---
+B002|1984|1949
+CATEGORIES:Science Fiction,Dystopian
+AUTHORS:A002
+---
+B003|The Great Gatsby|1925
+CATEGORIES:Fiction,Classic
+AUTHORS:A003
+---
+B004|Pride and Prejudice|1813
+CATEGORIES:Romance,Classic
+AUTHORS:A004
+---
+B005|The Hobbit|1937
+CATEGORIES:Fantasy,Adventure
+AUTHORS:A005
+---

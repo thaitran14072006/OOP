@@ -1,0 +1,5 @@
+A001|Harper Lee|1926-04-28|Harper Lee|harper.lee@email.com|0123456789
+A002|George Orwell|1903-06-25|George Orwell|george.orwell@email.com|0123456790
+A003|F. Scott Fitzgerald|1896-09-24|F. Scott Fitzgerald|fitzgerald@email.com|0123456791
+A004|Jane Austen|1775-12-16|Jane Austen|jane.austen@email.com|0123456792
+A005|J.R.R. Tolkien|1892-01-03|J.R.R. Tolkien|tolkien@email.com|0123456793

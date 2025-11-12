@@ -1,132 +1,187 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
-public class ReaderList implements  I_Management<Reader>{
-    private final TreeMap<String,Reader> readers;
-    public ReaderList()
-    {
-        readers=new TreeMap<>();
+
+public class ReaderList implements I_Management<Reader> {
+    private final TreeMap<String, Reader> readers;
+    
+    public ReaderList() {
+        readers = new TreeMap<>();
     }
+    
     @Override
-    public void add(Reader reader)
-    {
+    public void add(Reader reader) {
+        if (reader == null) {
+            throw new IllegalArgumentException("Reader cannot be null");
+        }
+        
+        for (Reader existingReader : readers.values()) {
+            if (existingReader.getEmail().equalsIgnoreCase(reader.getEmail())) {
+                throw new IllegalArgumentException("Reader with email " + reader.getEmail() + " already exists");
+            }
+        }
+        
         readers.put(reader.getId(), reader);
-        System.out.println("The reader has been added.");
+        System.out.println("Reader added successfully: " + reader.getName());
     }
+    
     @Override
-    public void remove(String id)
-    {
-        if(readers.containsKey(id))
-        {readers.remove(id);
-        System.out.println("The reader has been removed.");}
-        else{
-            System.out.println("Not exist!!");
+    public void remove(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("Reader ID cannot be null or empty");
+        }
+        
+        if (readers.containsKey(id)) {
+            Reader removedReader = readers.remove(id);
+            System.out.println("Reader removed successfully: " + removedReader.getName());
+        } else {
+            System.out.println("Reader not found!");
         }
     }
+    
     @Override
-    public void editProfile(String id)
-    {
-        try (Scanner sc = new Scanner(System.in)) {
-            int choice;
-            do {
-                System.out.println("Enter reader ID: ");
-                String readerId=sc.nextLine();
-                while(!readers.containsKey(readerId))
-                {
-                    System.out.println("Not found!!");
-                    System.out.println("Enter Id again: ");
-                    readerId=sc.nextLine();
-                    System.out.println("");
-                }
-                System.out.println("Enter the part to edit: ");
-                System.out.println("1. Edit name.");
-                System.out.println("2. Edit date.");
-                System.out.println("3. Edit phone number.");
-                System.out.println("4. Edit Email.");
-                System.out.println("5. Edit address.");
-                System.out.println("0. back.");
-                System.out.println("Select: ");
-                choice=sc.nextInt();
-                switch(choice)
-                {
-                    case 1 ->                 {
-                        System.out.println("Enter new name: ");
-                        String readerName=sc.nextLine();
-                        System.out.println("");
-                        readers.get(readerId).setName(readerName);
-                        System.out.println("");
-                        System.out.println("Edit success.");
-                    }
-                    case 2 ->                 {   System.out.println("Enter new date: ");
-                    System.out.println("Enter year: ");
-                    int year = sc.nextInt();
-                    System.out.println("");
-                    System.out.println("Enter month: ");
-                    int month = sc.nextInt();
-                    System.out.println("");
-                    System.out.println("Enter day of month: ");
-                    int dayOfMonth= sc.nextInt();
-                    System.out.println("");
-                    readers.get(readerId).setDate(year,month,dayOfMonth);
-                    System.out.println("");
-                    System.out.println("Edit success.");
-                    }
-                    case 3 ->                 {
-                        System.out.println("Enter new phone number: ");
-                        String readerPhoneNumber=sc.nextLine();
-                        readers.get(readerId).setPhoneNumber(readerPhoneNumber);
-                        System.out.println("");
-                        System.out.println("Edit success.");
-                    }
-                    case 4 ->                 {
-                        System.out.println("Enter new Email: ");
-                        String readerEmail = sc.nextLine();
-                        readers.get(readerId).setEmail(readerEmail);
-                        System.out.println("");
-                        System.out.println("Edit success.");
-                    }
-                    case 5 ->                 {
-                        System.out.println("Enter new address: ");
-                        String readerAddress=sc.nextLine();
-                        readers.get(readerId).setAddress(readerAddress);
-                        System.out.println("");
-                        System.out.println("Edit success");
-                    }
-                    
-                }
-            } while (choice !=0);
+    public Reader search(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("Reader ID cannot be null or empty");
         }
-    }
-    @Override
-    public Reader search(String id)
-    {
-        if(readers.containsKey(id))
-        return readers.get(id);
-        else
-        {
-            System.out.println("Not found!!");
+        
+        if (readers.containsKey(id)) {
+            return readers.get(id);
+        } else {
+            System.out.println("Reader not found!");
             return null;
         }
     }
-    @Override
-    public void show(String id)
-    {
-        if(readers.containsKey(id))
-        readers.get(id).showInfo();
+    
+    public ArrayList<Reader> searchByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+        
+        ArrayList<Reader> result = new ArrayList<>();
+        for (Reader reader : readers.values()) {
+            if (reader.getName().equalsIgnoreCase(name)) {
+                result.add(reader);
+            }
+        }
+        
+        if (result.isEmpty()) {
+            System.out.println("No readers found with name: " + name);
+            return null;
+        }
+        return result;
     }
+    
     @Override
-    public void showAll()
-    {
-        for(String rId : readers.keySet())
-        {
-            readers.get(rId).showInfo();
+    public void editProfile(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            System.out.println("Reader ID cannot be null or empty");
+            return;
+        }
+        
+        if (!readers.containsKey(id)) {
+            System.out.println("Reader not found!");
+            return;
+        }
+        
+        Scanner sc = new Scanner(System.in);
+        Reader reader = readers.get(id);
+        int choice;
+        
+        do {
+            System.out.println("\n--- Editing Reader: " + reader.getName() + " ---");
+            System.out.println("1. Edit name");
+            System.out.println("2. Edit birth date");
+            System.out.println("3. Edit phone number");
+            System.out.println("4. Edit email");
+            System.out.println("5. Edit address");
+            System.out.println("6. Show current information");
+            System.out.println("0. Back to main menu");
+            System.out.print("Select option: ");
+            
+            try {
+                choice = sc.nextInt();
+                sc.nextLine();
+                
+                switch (choice) {
+                    case 1 -> {
+                        System.out.print("Enter new name: ");
+                        String newName = sc.nextLine();
+                        reader.setName(newName);
+                        System.out.println("Name updated successfully.");
+                    }
+                    case 2 -> {
+                        System.out.println("Enter new birth date:");
+                        System.out.print("Year: ");
+                        int year = sc.nextInt();
+                        System.out.print("Month: ");
+                        int month = sc.nextInt();
+                        System.out.print("Day: ");
+                        int day = sc.nextInt();
+                        reader.setDate(year, month, day);
+                        System.out.println("Birth date updated successfully.");
+                    }
+                    case 3 -> {
+                        System.out.print("Enter new phone number: ");
+                        String phone = sc.nextLine();
+                        reader.setPhoneNumber(phone);
+                        System.out.println("Phone number updated successfully.");
+                    }
+                    case 4 -> {
+                        System.out.print("Enter new email: ");
+                        String email = sc.nextLine();
+                        reader.setEmail(email);
+                        System.out.println("Email updated successfully.");
+                    }
+                    case 5 -> {
+                        System.out.print("Enter new address: ");
+                        String address = sc.nextLine();
+                        reader.setAddress(address);
+                        System.out.println("Address updated successfully.");
+                    }
+                    case 6 -> reader.showInfo();
+                    case 0 -> System.out.println("Returning to main menu...");
+                    default -> System.out.println("Invalid option! Please try again.");
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                sc.nextLine();
+                choice = -1;
+            }
+        } while (choice != 0);
+    }
+    
+    @Override
+    public void show(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("Reader ID cannot be null or empty");
+        }
+        
+        if (readers.containsKey(id)) {
+            readers.get(id).showInfo();
+        } else {
+            System.out.println("Reader not found!");
         }
     }
-    public int getTotalReader()
-    {
-        return Reader.getTotal();
+    
+    @Override
+    public void showAll() {
+        if (readers.isEmpty()) {
+            System.out.println("No readers available.");
+            return;
+        }
+        
+        System.out.println("\n--- ALL READERS ---");
+        for (Reader reader : readers.values()) {
+            reader.showInfo();
+        }
     }
-    public int minusQuantity(int quantity)
-    {
-        return Reader.getTotal()-quantity;
+    
+    public int getTotalReaders() {
+        return readers.size();
+    }
+    
+    public TreeMap<String, Reader> getReadersMap() {
+        return new TreeMap<>(readers);
     }
 }
