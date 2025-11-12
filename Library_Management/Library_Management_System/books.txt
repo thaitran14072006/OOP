@@ -1,0 +1,27 @@
+B001|1984|1949
+CATEGORIES:Dystopian,Political Fiction
+---
+B003|The Great Gatsby|1925
+CATEGORIES:Classic,Tragedy
+---
+B004|Harry Potter and the Sorcerers Stone|1997
+CATEGORIES:Fantasy,Adventure
+---
+B005|The Hobbit|1937
+CATEGORIES:Fantasy,Adventure
+---
+B006|Pride and Prejudice|1900
+CATEGORIES:Romance,Classic
+---
+B007|The Catcher in the Rye|1951
+CATEGORIES:Fiction
+---
+B008|The Lord of the Rings|1954
+CATEGORIES:Fantasy,Epic
+---
+B009|Fahrenheit 451|1953
+CATEGORIES:Dystopian,Science Fiction
+---
+B010|The Little Prince|1943
+CATEGORIES:Children,Philosophy
+---

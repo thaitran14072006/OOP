@@ -1,0 +1,10 @@
+A001|George Orwell|1903-06-25|George Orwell|george.orwell@email.com|0123456789
+A002|Harper Lee|1926-04-28|Harper Lee|harper.lee@email.com|0123456790
+A003|F Scott Fitzgerald|1896-09-24|F Scott Fitzgerald|fitzgerald@email.com|0123456791
+A004|JK Rowling|1965-07-31|JK Rowling|jk.rowling@email.com|0123456792
+A005|JRR Tolkien|1892-01-03|JRR Tolkien|tolkien@email.com|0123456793
+A006|Jane Austen|1775-12-16|Jane Austen|jane.austen@email.com|0123456794
+A007|JD Salinger|1919-01-01|JD Salinger|salinger@email.com|0123456795
+A008|Ray Bradbury|1920-08-22|Ray Bradbury|bradbury@email.com|0123456796
+A009|Antoine de Saint-Exupéry|1900-06-29|Saint-Exupéry|exupery@email.com|0123456797
+A010|Mark Twain|1835-11-30|Mark Twain|twain@email.com|0123456798
