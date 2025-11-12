@@ -1,0 +1,349 @@
+@startuml Library Management System Class Diagram
+
+skinparam groupInheritance 2
+skinparam nodesep 10
+skinparam ranksep 10
+
+' ============ PACKAGES ============
+package "Main System" {
+  class LibraryApp {
+    +main(String[] args) void
+  }
+
+  class LibraryManagementSystem {
+    -BookList bookList
+    -AuthorList authorList
+    -ReaderList readerList
+    -BorrowSlipList borrowSlipsList
+    +LibraryManagementSystem()
+    -initializeSystem() void
+    +saveAllData() void
+    +createBackup() void
+    +showMainMenu() void
+    -showBookManagementMenu(Scanner) void
+    -showAuthorManagementMenu(Scanner) void
+    -showReaderManagementMenu(Scanner) void
+    -showBorrowManagementMenu(Scanner) void
+    -showReportsMenu(Scanner) void
+    -showDataManagementMenu(Scanner) void
+    -showLibraryStatistics() void
+    -showOverdueReport() void
+    -showAvailableBooksReport() void
+    -showReaderActivityReport() void
+  }
+}
+
+package "Interface" {
+  interface I_Management<T> {
+    +add(T) void
+    +remove(String) void
+    +search(String) T
+    +editProfile(String) void
+    +show(String) void
+    +showAll() void
+    +save() void
+  }
+}
+
+package "Person Hierarchy" {
+  abstract class Person {
+    #{field} String id
+    #{field} String name
+    #{field} LocalDate date
+    #{field} String phoneNumber
+    #{field} String Email
+    -static final Pattern EMAIL_PATTERN
+    -static final Pattern PHONE_PATTERN
+    -static final Pattern NAME_PATTERN
+    +Person(String, int, int, int, String, String)
+    +Person(String, String, int, int, int, String, String)
+    #{method} validateName(String) void
+    #{method} validateEmail(String) void
+    #{method} validatePhoneNumber(String) void
+    #{method} validateDate(int, int, int) void
+    +setName(String) void
+    +setDate(int, int, int) void
+    +setPhoneNumber(String) void
+    +setEmail(String) void
+    +{abstract} showInfo() void
+    +getId() String
+    +getName() String
+    +getDate() LocalDate
+    +getPhoneNumber() String
+    +getEmail() String
+  }
+
+  class Author {
+    -String penName
+    -static int count
+    -static final Pattern PEN_NAME_PATTERN
+    +Author(String, int, int, int, String, String, String)
+    +Author(String, String, int, int, int, String, String, String)
+    -validatePenName(String) void
+    +setPenName(String) void
+    +getPenName() String
+    +static getTotal() int
+    +static updateCountFromFile(ArrayList<Author>) void
+    +showInfo() void
+  }
+
+  class Reader {
+    -String address
+    -static int count
+    -static final Pattern ADDRESS_PATTERN
+    +Reader(String, int, int, int, String, String, String)
+    +Reader(String, String, int, int, int, String, String, String)
+    -validateAddress(String) void
+    +setAddress(String) void
+    +getAddress() String
+    +static updateCountFromFile(ArrayList<Reader>) void
+    +showInfo() void
+  }
+}
+
+package "Book Domain" {
+  class Book {
+    -String id
+    -String title
+    -ArrayList<String> categories
+    -ArrayList<Author> authors
+    -String publicationYear
+    -static int count
+    -ArrayList<String> authorIds
+    -static final Pattern TITLE_PATTERN
+    -static final Pattern YEAR_PATTERN
+    -static final Pattern CATEGORY_PATTERN
+    -static final int MAX_AUTHORS_PER_BOOK
+    -static final int MAX_CATEGORIES_PER_BOOK
+    -int copyCount
+    +Book(String, String)
+    +Book(String, String, String)
+    -validateTitle(String) void
+    -validatePublicationYear(String) void
+    -validateCategory(String) void
+    +setTitle(String) void
+    +setPublicationYear(String) void
+    +addCategory(String) void
+    +addAuthor(Author) void
+    +linkAuthors(ArrayList<Author>) void
+    -findAuthorById(ArrayList<Author>, String) Author
+    +removeCategory(String) boolean
+    +removeAuthor(Author) boolean
+    +getAuthorIds() ArrayList<String>
+    +setAuthorIds(ArrayList<String>) void
+    +addAuthorId(String) void
+    +setBookId() void
+    +static updateCountFromFile(ArrayList<Book>) void
+    +incrementCopyCount() void
+    +setCopyCount(int) void
+    +getCopyCount() int
+    +showInfo() void
+    +getId() String
+    +getTitle() String
+    +getCategories() ArrayList<String>
+    +getAuthors() ArrayList<Author>
+    +getPublicationYear() String
+    +static getTotal() int
+  }
+
+  class BookCopy {
+    -String copyId
+    -Book book
+    -boolean isAvailable
+    -static int totalCopies
+    -static final int MAX_COPIES_PER_BOOK
+    +BookCopy(Book)
+    +BookCopy(String, Book, boolean)
+    +getCopyId() String
+    +getBook() Book
+    +isAvailable() boolean
+    +setAvailable(boolean) void
+    +static getTotalCopies() int
+    +showInfo() void
+    +static updateCountFromFile(ArrayList<BookCopy>) void
+  }
+
+  class BorrowSlip {
+    -String borrowId
+    -ArrayList<String> bookCopyIds
+    -LocalDate borrowDate
+    -LocalDate dueDate
+    -Reader reader
+    -static int count
+    -static final int MAX_BOOKS_PER_READER
+    -static final int BORROW_PERIOD_DAYS
+    +BorrowSlip(int, int, int, Reader)
+    +BorrowSlip(String, int, int, int, Reader)
+    +BorrowSlip()
+    -validateReader(Reader) void
+    -validateBorrowDate(int, int, int) void
+    -validateBookLimit() void
+    +addBookCopy(BookList, String) boolean
+    +addBookCopyById(BookList, String) boolean
+    +returnBookCopy(BookList, String) boolean
+    +setBorrowDate(int, int, int) void
+    +setReader(Reader) void
+    +static updateCountFromFile(ArrayList<BorrowSlip>) void
+    +isOverdue() boolean
+    +getDaysOverdue() int
+    +calculateLateFee() double
+    +canBorrowMoreBooks() boolean
+    +getRemainingBookSlots() int
+    +showInfo(BookList) void
+    +getBorrowId() String
+    +getBookCopyIds() ArrayList<String>
+    +getBorrowDate() LocalDate
+    +getDueDate() LocalDate
+    +getReader() Reader
+  }
+}
+
+package "List Management" {
+  class AuthorList {
+    -Map<String, Author> authors
+    +AuthorList()
+    -TranstoMap(ArrayList<Author>) void
+    +add(Author) void
+    +remove(String) void
+    +search(String) Author
+    +searchByName(String) ArrayList<Author>
+    +editProfile(String) void
+    +show(String) void
+    +showAll() void
+    +getTotalAuthors() int
+    +getAuthorsMap() TreeMap<String, Author>
+    +save() void
+  }
+
+  class BookList {
+    -Map<String, Book> books
+    -Map<String, BookCopy> bookCopies
+    +BookList()
+    -TranstoMap(ArrayList<Book>) void
+    -TranstoMap2(ArrayList<BookCopy>) void
+    +add(Book) void
+    +addCopy(Book) void
+    +addCopy(String) void
+    +remove(String) void
+    +removeCopy(String) void
+    +search(String) Book
+    +searchCopy(String) BookCopy
+    +getAvailableCopies(String) ArrayList<BookCopy>
+    +editProfile(String) void
+    +show(String) void
+    +showAll() void
+    +showAllCopies() void
+    +getTotalBooks() int
+    +getTotalCopies() int
+    +getAvailableCopiesCount(String) int
+    +searchByTitle(String) ArrayList<Book>
+    +getBooksMap() TreeMap<String, Book>
+    +getBookCopiesMap() TreeMap<String, BookCopy>
+    +save() void
+    -saveBooks() void
+    +static saveBookCopies(Map<String, BookCopy>) void
+  }
+
+  class ReaderList {
+    -TreeMap<String, Reader> readers
+    +ReaderList()
+    -TranstoMap(ArrayList<Reader>) void
+    +add(Reader) void
+    +remove(String) void
+    +search(String) Reader
+    +searchByName(String) ArrayList<Reader>
+    +editProfile(String) void
+    +show(String) void
+    +showAll() void
+    +getTotalReaders() int
+    +getReadersMap() TreeMap<String, Reader>
+    +save() void
+  }
+
+  class BorrowSlipList {
+    -Map<String, BorrowSlip> slips
+    -static final String BORROW_SLIPS_FILE
+    +BorrowSlipList(BookList, Map<String, Reader>)
+    +add(BorrowSlip) void
+    +addSlip(BorrowSlip) void
+    +remove(String) void
+    +search(String) BorrowSlip
+    +editProfile(String) void
+    +show(String) void
+    +showAll() void
+    +save() void
+    +returnBook(BorrowSlip, BookList, String) boolean
+    +returnAllBooks(BorrowSlip, BookList) void
+    +getSlips() Collection<BorrowSlip>
+  }
+}
+
+package "File Handler" {
+  class FileHandler {
+    -static final String BASE_PATH
+    -static final String BOOKS_FILE
+    -static final String AUTHORS_FILE
+    -static final String READERS_FILE
+    -static final String BOOK_COPIES_FILE
+    -static final String BORROW_SLIPS_FILE
+    +static loadBooks() ArrayList<Book>
+    +static loadAuthors() ArrayList<Author>
+    +static saveReaders(ArrayList<Reader>) void
+    +static loadReaders() ArrayList<Reader>
+    +static saveBookCopies(ArrayList<BookCopy>) void
+    +static loadBookCopies(ArrayList<Book>) ArrayList<BookCopy>
+    +static saveBorrowSlips(ArrayList<BorrowSlip>) void
+    +static loadBorrowSlips(ArrayList<Reader>, ArrayList<BookCopy>) ArrayList<BorrowSlip>
+    -static findBookById(ArrayList<Book>, String) Book
+    -static findReaderById(ArrayList<Reader>, String) Reader
+    +static findAuthorById(ArrayList<Author>, String) Author
+    +static linkAuthorsToBooks(ArrayList<Book>, ArrayList<Author>) void
+    +static createBackup() void
+    -static copyFile(String, String) void
+    +static validateDataConsistency(ArrayList<Book>, ArrayList<Author>, ArrayList<Reader>, ArrayList<BookCopy>, ArrayList<BorrowSlip>) boolean
+  }
+}
+
+' ============ RELATIONSHIPS ============
+
+' Inheritance
+Person <|-- Author
+Person <|-- Reader
+
+' Interface Implementation
+I_Management <|.. BookList
+I_Management <|.. AuthorList
+I_Management <|.. ReaderList
+I_Management <|.. BorrowSlipList
+
+' Composition
+LibraryManagementSystem *-- BookList
+LibraryManagementSystem *-- AuthorList
+LibraryManagementSystem *-- ReaderList
+LibraryManagementSystem *-- BorrowSlipList
+
+AuthorList *-- Author
+BookList *-- Book
+BookList *-- BookCopy
+ReaderList *-- Reader
+BorrowSlipList *-- BorrowSlip
+
+' Association
+Book "1" *-- "*" Author : authors
+Book "1" *-- "*" BookCopy : copies
+BorrowSlip "1" *-- "1" Reader
+BorrowSlip "1" *-- "*" BookCopy
+
+' Dependency
+BookCopy --> Book : references
+BorrowSlip --> BookList : uses
+
+FileHandler ..> Book : loads/saves
+FileHandler ..> Author : loads/saves
+FileHandler ..> Reader : loads/saves
+FileHandler ..> BookCopy : loads/saves
+FileHandler ..> BorrowSlip : loads/saves
+
+LibraryApp --> LibraryManagementSystem : uses
+
+@enduml

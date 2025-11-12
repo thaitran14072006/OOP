@@ -1,0 +1,15 @@
+R001|Nguyen Van A|1990-05-15|0912345678|nguyen.a@email.com|123 Nguyen Hue, District 1, HCMC
+R002|Tran Thi B|1985-08-22|0912345679|tran.b@email.com|456 Le Loi, District 3, HCMC
+R003|Le Van C|1995-03-10|0912345680|le.c@email.com|789 Pasteur, District 1, HCMC
+R004|Pham Thi D|1992-11-30|0912345681|pham.d@email.com|321 Vo Thi Sau, District 3, HCMC
+R005|Hoang Van E|1988-07-18|0912345682|hoang.e@email.com|654 Cach Mang Thang 8, District 10, HCMC
+R006|Le Thi F|1993-02-14|0912345683|le.f@email.com|987 Nguyen Trai, District 5, HCMC
+R007|Nguyen Van G|1991-09-05|0912345684|nguyen.g@email.com|654 Dien Bien Phu, District 3, HCMC
+R008|Tran Van H|1987-12-20|0912345685|tran.h@email.com|321 Le Duan, District 1, HCMC
+R009|Pham Thi I|1994-04-11|0912345686|pham.i@email.com|123 Hai Ba Trung, District 1, HCMC
+R010|Hoang Thi J|1990-08-30|0912345687|hoang.j@email.com|456 Nguyen Thi Minh Khai, District 3, HCMC
+R011|Le Van K|1992-01-25|0912345688|le.k@email.com|789 Cach Mang Thang Tam, District 10, HCMC
+R012|Nguyen Thi L|1995-07-19|0912345689|nguyen.l@email.com|321 Pasteur, District 1, HCMC
+R013|Tran Van M|1989-11-03|0912345690|tran.m@email.com|654 Vo Thi Sau, District 3, HCMC
+R014|Pham Van N|1993-05-08|0912345691|pham.n@email.com|987 Le Lai, District 1, HCMC
+R015|Hoang Van O|1991-03-22|0912345692|hoang.o@email.com|123 Nguyen Trai, District 5, HCMC
